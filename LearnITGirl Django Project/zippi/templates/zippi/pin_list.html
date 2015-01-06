@@ -1,0 +1,12 @@
+{% extends 'zippi/base.html' %}
+
+{% block content %}
+
+	{% for pin in pins %}
+		<div class="pin">
+		<h1><a href="{% url 'zippi.views.pin_detail' pk=pin.pk %}">{{ pin.category }}</a></h1>
+		<p>{{ pin.comment|linebreaks }}</p>
+		</div>
+	{% endfor %}
+
+{% endblock content %}        
