@@ -1,0 +1,26 @@
+{% extends 'zippi/base.html' %}
+
+{% block content %}
+
+	<h1>Register with ZIPPI</h1>
+
+        {% if registered %}
+        Zippi says: <strong>thank you for registering!</strong>
+        <a href="/zippi/">Return to the homepage.</a><br />
+        {% else %}
+        Zippi says: <strong>register here!</strong><br />
+
+        <form id="user_form" method="post" action="/zippi/register/"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+
+            <input type="submit" name="submit" value="Register" />
+        </form>
+        {% endif %}
+   
+
+{% endblock content %}        
