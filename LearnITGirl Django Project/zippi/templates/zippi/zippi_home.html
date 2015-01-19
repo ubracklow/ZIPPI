@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends 'zippi/base.html' %}
+
+{% block content %}
+	
+	{% if user.is_authenticated %}
+	<h1>Zippi says... hello {{ user.username }}!</h1>
+	{% else %}
+	<h1>Zippi says... hello world!</h1>
+	{% endif %}
+
+<br />	
+<br />	
+<br />
+
+	<h1><a href="/pin/list/">See List of Pins Here</a></h1>
+	
+	<br />
+
+	<h1><a href="/zippi/register/">Register Here</a></h1>
+	
+	<br />
+	
+	<h1><a href="/zippi/login/">Login Here</a></h1>
+<br />
+	
+	<h1><a href="/zippi/logout/">Logout Here</a></h1>
+
+{% endblock %}        
