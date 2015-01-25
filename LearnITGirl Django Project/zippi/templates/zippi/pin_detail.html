@@ -1,7 +1,7 @@
 {% extends 'zippi/base.html' %}
 
 {% block content %}
-    <h1>{{ pin.category }}</h1>
+    <h1>{{ pin.get_category_display }}</h1>
     <p>{{ pin.comment|linebreaks }}</p>
     <p>{{ pin.latitude }}</p>
     <p>{{ pin.longitude }}</p>
