@@ -9,7 +9,7 @@ body {
 }
 
 .page-header {
-    background-color: #383838;
+    background-color: #d31228;
     margin-top: 0;
     padding: 20px 20px 20px 40px;
 }
@@ -17,7 +17,7 @@ body {
 .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
     font-family: 'Gravitas One', cursive;    
     font-weight: bold;
-    color: #787f9d;
+    color: #e2bb32;
     font-size: 36pt;
     text-decoration: none;
 }
@@ -32,7 +32,7 @@ h1, h2, h3, h4 {
 
 .date {
     float: right;
-    color: #567880;
+    color: #ac4c39;
 }
 
 .save {
@@ -48,11 +48,11 @@ float: right;
 margin-right: 20px;
 margin-top: 20px;
 font-size: 35pt;
-color: #609c6c;
+color: #3e86be;
 }
 
 .top-menu, .top-menu:hover {
-    color: #bde4a8;
+    color: #0535aa;
     float: right;
     font-size: 26pt;
     margin-right: 20px;

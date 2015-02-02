@@ -1,9 +1,20 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
-from .models import Pin
+from .models import Pin, UserProfile
 from .forms import PinForm, UserForm, UserProfileForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+
+#maps bitbucket gmapi
+##from django import forms
+##from django.shortcuts import render_to_response
+##from gmapi import maps
+##from gmapi.forms.widgets import GoogleMap
+
+
+def zippi_start(request):
+     context_dict = {'boldmessage': "I am bold font from the context"}
+     return render(request, 'zippi/zippi_start.html', context_dict)
 
 def zippi_home(request):
      context_dict = {'boldmessage': "I am bold font from the context"}
@@ -30,6 +41,7 @@ def pin_new(request):
         form = PinForm()
     return render(request, 'zippi/pin_edit.html', {'form': form})
 
+#auth.user functions
 
 def register(request):
     registered = False
@@ -75,7 +87,8 @@ def user_login(request):
           if user:
                if user.is_active:
                     login(request, user)
-                    return HttpResponseRedirect('')
+                    picture = UserProfile.get_picture
+                    return render(request, 'zippi/zippi_home.html',{'picture': picture})
                else:
                     return HttpResponse('Your Zippi account is disabled.')
           else:
@@ -87,11 +100,33 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('')
+    return render(request, 'zippi/zippi_start.html',{})
+    
+
+#maps
+
+##class MapForm(forms.Form):
+##    map = forms.Field(widget=GoogleMap(attrs={'width':510, 'height':510}))
+##
+##
+##def mymap(request):
+##    gmap = maps.Map(opts = {
+##        'center': maps.LatLng(38, -97),
+##        'mapTypeId': maps.MapTypeId.ROADMAP,
+##        'zoom': 3,
+##        'mapTypeControlOptions': {
+##             'style': maps.MapTypeControlStyle.DROPDOWN_MENU
+##        },
+##    })
+##    context = {'form': MapForm(initial={'map': gmap})}
+##    return render_to_response('map.html', context)
+##
 
 
           
-     
+def map_test(request):
+     context_dict = {'boldmessage': "I am bold font from the context"}
+     return render(request, 'zippi/maptest.html', context_dict)     
 
 
 

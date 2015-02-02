@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Map(models.Model):
     user = models.ForeignKey('auth.User')
     map_title = models.CharField(max_length=200)
@@ -27,6 +28,10 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
+    def get_picture(self):
+        return self.picture
+    
     def __str__(self):
         return self.user.username
+
 
