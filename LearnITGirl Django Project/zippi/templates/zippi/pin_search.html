@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends 'zippi/base_start.html' %}
+
+{% block content %}
+	
+	
+	<h1>Welcome to Zippi!</h1>
+	
+
+<br />	
+<br />	
+<br />
+
+	
+<form action="/pinsearch/" method="post">
+    	{% csrf_token %}
+	{{ form }}
+	<input type="submit" value="Find">
+
+</form>	
+
+
+<br />
+	
+	
+{% endblock %}        

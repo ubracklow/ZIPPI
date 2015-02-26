@@ -7,3 +7,5 @@ admin.site.register(Map)
 
 admin.site.register(UserProfile)
 
+
+

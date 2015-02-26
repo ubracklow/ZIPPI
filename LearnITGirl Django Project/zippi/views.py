@@ -1,45 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
-from .models import Pin, UserProfile
-from .forms import PinForm, UserForm, UserProfileForm
+from .models import Pin, UserProfile, Map
+from .forms import PinForm, UserForm, UserProfileForm, PinSearchForm, MapCenterForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from geopy.geocoders import Nominatim
 
-#maps bitbucket gmapi
-##from django import forms
-##from django.shortcuts import render_to_response
-##from gmapi import maps
-##from gmapi.forms.widgets import GoogleMap
-
-
-def zippi_start(request):
-     context_dict = {'boldmessage': "I am bold font from the context"}
-     return render(request, 'zippi/zippi_start.html', context_dict)
-
-def zippi_home(request):
-     context_dict = {'boldmessage': "I am bold font from the context"}
-     return render(request, 'zippi/zippi_home.html', context_dict)
-
-def pin_list(request):
-    pins= Pin.objects.filter(author=request.user)
-    pins = Pin.objects.order_by('category')
-    return render(request, 'zippi/pin_list.html', {'pins': pins})
-
-def pin_detail(request, pk):
-    pin = get_object_or_404(Pin, pk=pk)
-    return render(request, 'zippi/pin_detail.html', {'pin': pin})
-
-def pin_new(request):
-    if request.method == "POST":
-        form = PinForm(request.POST)
-        if form.is_valid():
-            pin = form.save(commit=False)
-            pin.author = request.user
-            pin.save()
-            return redirect('zippi.views.pin_detail', pk=pin.pk)
-    else:
-        form = PinForm()
-    return render(request, 'zippi/pin_edit.html', {'form': form})
 
 #auth.user functions
 
@@ -87,7 +53,8 @@ def user_login(request):
           if user:
                if user.is_active:
                     login(request, user)
-                    picture = UserProfile.get_picture
+                    picture_user = UserProfile.objects.filter(user=request.user)
+                    picture = picture_user[0].picture
                     return render(request, 'zippi/zippi_home.html',{'picture': picture})
                else:
                     return HttpResponse('Your Zippi account is disabled.')
@@ -100,45 +67,85 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return render(request, 'zippi/zippi_start.html',{})
+    return render(request, 'zippi/zippi_start.html')
+
+def zippi_start(request):
+     return render(request, 'zippi/zippi_start.html')
+
+def zippi_home(request):
+     return render(request, 'zippi/zippi_home.html')
+
+## MAPS
     
+def show_map(request, pk):
+    new_map = get_object_or_404(Map, pk=pk)
+    return render(request,'zippi/show_map.html', {'long' : new_map.long, 'lat' : new_map.lat })     
 
-#maps
+## set map center: user input is calculated into coordinates and saved in map db model
 
-##class MapForm(forms.Form):
-##    map = forms.Field(widget=GoogleMap(attrs={'width':510, 'height':510}))
-##
-##
-##def mymap(request):
-##    gmap = maps.Map(opts = {
-##        'center': maps.LatLng(38, -97),
-##        'mapTypeId': maps.MapTypeId.ROADMAP,
-##        'zoom': 3,
-##        'mapTypeControlOptions': {
-##             'style': maps.MapTypeControlStyle.DROPDOWN_MENU
-##        },
-##    })
-##    context = {'form': MapForm(initial={'map': gmap})}
-##    return render_to_response('map.html', context)
-##
-
-
-          
-def map_test(request):
-     context_dict = {'boldmessage': "I am bold font from the context"}
-     return render(request, 'zippi/maptest.html', context_dict)     
-
-
+def map_center(request):
+    if request.method == 'POST':
+        form = MapCenterForm(request.POST)
+        if form.is_valid():
+            new_map = form.save(commit=False)
+            new_map.author = request.user
+            geolocator = Nominatim()
+            location = geolocator.geocode(str(request.POST['country']))
+##            if location == None:
+##                form = MapCenterForm()
+##            else:
+            new_map.long = location.longitude
+            new_map.lat = location.latitude
+            new_map.save()
+            return render (request, 'zippi/show_map.html', {'long' : new_map.long, 'lat' : new_map.lat })
+            #return redirect(request, 'zippi.views.show_map', pk = new_map.pk)        
+        else:
+            form = MapCenterForm()
+            return render(request, 'zippi/map_center.html', {'form': form})
 
 
+## PINS
+
+def pin_list(request):
+    pins= Pin.objects.filter(author=request.user)
+    pins = Pin.objects.order_by('category')
+    return render(request, 'zippi/pin_list.html', {'pins': pins})
+
+def pin_search(request):
+    ## search field to take user input for pin location and trabsfer into geocode lat and long
+    if request.method == 'POST':
+          form = PinSearchForm(request.POST)
+          if form.is_valid():
+               geolocator = Nominatim()
+               location = geolocator.geocode(str(request.POST['address']))
+               if location == None:
+                    form = PinSearchForm()
+               else:
+                    long = location.longitude
+                    lat = location.latitude
+                    return redirect (request, 'zippi.views.pin_new')
+    else:
+          form = PinSearchForm()
+    return render(request, 'zippi/pin_search.html', {'form': form})
 
 
+def pin_new(request, pk):
+    ## takes pin_search lat and long and prompts remaining user input to fill Pin model and save in DB
+    if request.method == "POST":
+        form = PinForm(request.POST)
+        if form.is_valid():
+            pin = form.save(commit=False)
+            pin.author = request.user
+            pin.pin_latitude = lat
+            pin.pin_longitude = long
+            pin.save()
+            return redirect('zippi.views.pin_detail', pk=pin.pk)
+    else:
+        form = PinForm()
+    return render(request, 'zippi/pin_edit.html', {'form': form})
 
 
+def pin_detail(request, pk):
+    pin = get_object_or_404(Pin, pk=pk)
+    return render(request, 'zippi/pin_detail.html', {'pin': pin})
 
-
-
-
-
-
-     

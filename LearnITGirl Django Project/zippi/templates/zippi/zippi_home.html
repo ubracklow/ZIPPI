@@ -5,7 +5,10 @@
 	
 	{% if user.is_authenticated %}
 	<h1>Hello {{ user.username }}!</h1>
-	<div> {{user.oser.picture.url}}
+	
+	<div> <br>
+         <img src="{{ picture.url }}" />
+         
 	</div>
 	
 	{% else %}

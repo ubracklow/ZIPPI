@@ -37,7 +37,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'zippi',
-    #'gmapi',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -87,6 +86,8 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "profile_images")
+MEDIA_URL = '/media/profile_images/'
 
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()

@@ -1,13 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Map(models.Model):
-    user = models.ForeignKey('auth.User')
-    map_title = models.CharField(max_length=200)
-    
+    user = models.ForeignKey('auth.User', default=1)
+    map_title = models.CharField(max_length=255)
+    lat = models.DecimalField(max_digits=8, decimal_places=6, null=True, blank=True)
+    long = models.DecimalField(max_digits=8, decimal_places=6, null=True, blank=True)
+
 class Pin(models.Model):
-    #map_id = models.ForeignKey(Map)
+    #map_title = models.ForeignKey(Map)
     author = models.ForeignKey('auth.User', default=1)
     pin_latitude = models.DecimalField(max_digits=8, decimal_places=6)
     pin_longitude = models.DecimalField(max_digits=8, decimal_places=6)
@@ -28,9 +29,6 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
-    def get_picture(self):
-        return self.picture
-    
     def __str__(self):
         return self.user.username
 
