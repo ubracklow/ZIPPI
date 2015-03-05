@@ -8,7 +8,7 @@ class Map(models.Model):
     long = models.DecimalField(max_digits=8, decimal_places=6, null=True, blank=True)
 
 class Pin(models.Model):
-    #map_title = models.ForeignKey(Map)
+    map_title = models.ForeignKey(Map)
     author = models.ForeignKey('auth.User', default=1)
     pin_latitude = models.DecimalField(max_digits=8, decimal_places=6)
     pin_longitude = models.DecimalField(max_digits=8, decimal_places=6)

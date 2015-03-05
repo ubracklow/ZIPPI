@@ -98,11 +98,13 @@ def map_center(request):
             new_map.lat = location.latitude
             new_map.save()
             return render (request, 'zippi/show_map.html', {'long' : new_map.long, 'lat' : new_map.lat })
-            #return redirect(request, 'zippi.views.show_map', pk = new_map.pk)        
+                  
         else:
             form = MapCenterForm()
             return render(request, 'zippi/map_center.html', {'form': form})
-
+    else:
+        form = MapCenterForm()
+        return render(request, 'zippi/map_center.html', {'form': form})
 
 ## PINS
 
@@ -112,24 +114,25 @@ def pin_list(request):
     return render(request, 'zippi/pin_list.html', {'pins': pins})
 
 def pin_search(request):
-    ## search field to take user input for pin location and trabsfer into geocode lat and long
+    ## search field to take user input for pin location and transfer into geocode lat and long
     if request.method == 'POST':
-          form = PinSearchForm(request.POST)
-          if form.is_valid():
-               geolocator = Nominatim()
-               location = geolocator.geocode(str(request.POST['address']))
-               if location == None:
-                    form = PinSearchForm()
-               else:
-                    long = location.longitude
-                    lat = location.latitude
-                    return redirect (request, 'zippi.views.pin_new')
+        form = PinSearchForm(request.POST)
+        if form.is_valid():
+            geolocator = Nominatim()
+            location = geolocator.geocode(str(request.POST['address']))
+            long = location.longitude
+            lat = location.latitude
+            #return render (request, 'zippi/show_pin.html', {'long' : long, 'lat' : lat })
+            return redirect (request, 'zippi.views.pin_new', lat, long)
+        else:
+            form = PinSearchForm()
+            return render(request, 'zippi/pin_search.html', {'form': form})
     else:
           form = PinSearchForm()
     return render(request, 'zippi/pin_search.html', {'form': form})
 
 
-def pin_new(request, pk):
+def pin_new(request, lat, long):
     ## takes pin_search lat and long and prompts remaining user input to fill Pin model and save in DB
     if request.method == "POST":
         form = PinForm(request.POST)
