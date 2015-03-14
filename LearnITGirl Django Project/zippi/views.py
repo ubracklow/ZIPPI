@@ -91,13 +91,10 @@ def map_center(request):
             new_map.author = request.user
             geolocator = Nominatim()
             location = geolocator.geocode(str(request.POST['country']))
-##            if location == None:
-##                form = MapCenterForm()
-##            else:
-            new_map.long = location.longitude
-            new_map.lat = location.latitude
+            new_map.map_long = location.longitude
+            new_map.map_lat = location.latitude
             new_map.save()
-            return render (request, 'zippi/show_map.html', {'long' : new_map.long, 'lat' : new_map.lat })
+            return render (request, 'zippi/show_map.html', {'map_long' : new_map.map_long, 'map_lat' : new_map.map_lat, 'map_id' : new_map.pk, })
                   
         else:
             form = MapCenterForm()
@@ -113,17 +110,18 @@ def pin_list(request):
     pins = Pin.objects.order_by('category')
     return render(request, 'zippi/pin_list.html', {'pins': pins})
 
-def pin_search(request):
+
+def pin_search(request, map_id):
     ## search field to take user input for pin location and transfer into geocode lat and long
     if request.method == 'POST':
         form = PinSearchForm(request.POST)
         if form.is_valid():
+            map_id = Map.objects.filter(pk=map_id)
             geolocator = Nominatim()
             location = geolocator.geocode(str(request.POST['address']))
-            long = location.longitude
-            lat = location.latitude
-            #return render (request, 'zippi/show_pin.html', {'long' : long, 'lat' : lat })
-            return redirect (request, 'zippi.views.pin_new', lat, long)
+            pin_long = location.longitude
+            pin_lat = location.latitude
+            return redirect (request, 'zippi.views.pin_new', pin_lat, pin_long, map_id)
         else:
             form = PinSearchForm()
             return render(request, 'zippi/pin_search.html', {'form': form})
@@ -132,15 +130,17 @@ def pin_search(request):
     return render(request, 'zippi/pin_search.html', {'form': form})
 
 
-def pin_new(request, lat, long):
+def pin_new(request, map_id, pin_lat, pin_long):
     ## takes pin_search lat and long and prompts remaining user input to fill Pin model and save in DB
     if request.method == "POST":
         form = PinForm(request.POST)
         if form.is_valid():
             pin = form.save(commit=False)
             pin.author = request.user
-            pin.pin_latitude = lat
-            pin.pin_longitude = long
+            map_id = Map.objects.filter(pk=map_id)
+            pin.map_title = map_id[0]
+            pin.pin_lat = pin_lat
+            pin.pin_long = pin_long
             pin.save()
             return redirect('zippi.views.pin_detail', pk=pin.pk)
     else:

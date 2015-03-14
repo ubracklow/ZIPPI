@@ -25,7 +25,7 @@
       function initialize() {
         var mapCanvas = document.getElementById('map-canvas');
         var mapOptions = {
-          center: new google.maps.LatLng({{ lat }}, {{ long }}),
+          center: new google.maps.LatLng({{ map_lat }}, {{ map_long }}),
           zoom: 7,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         }
@@ -38,9 +38,8 @@
  
 <body>
 	<div class="page-header">
-        	<a href="{% url 'zippi.views.pin_new' %}" class="icon"><span class="glyphicon glyphicon-pushpin"></span></a>
-		<a href="{% url 'zippi.views.pin_new' %}" class="icon"><span class="glyphicon glyphicon-globe"></span></a>
-		
+        	<a href="../../pin/search/{{map_id}}/" class="icon"><span class="glyphicon glyphicon-pushpin"></span></a>
+				
 		<h1><a href="/">ZIPPI - Your Travel Companion</a></h1>
 	</div>
 	

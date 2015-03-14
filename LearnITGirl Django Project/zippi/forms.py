@@ -5,11 +5,14 @@ from django.shortcuts import get_object_or_404, redirect
 
 
 class PinForm(forms.ModelForm):
-    Map = forms.ModelChoiceField(queryset=Map.objects.all().order_by('map_title'))
-
+    
     class Meta:
         model = Pin
         fields = ('category', 'comment',)
+
+class PinSearchForm(forms.Form):
+    address = forms.CharField(label = 'Enter Pin Location', max_length=255)
+
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -31,6 +34,5 @@ class MapCenterForm(forms.ModelForm):
 
     country = forms.CharField(label = 'Enter the country you are travelling to', max_length=255)
 
-class PinSearchForm(forms.Form):
-    address = forms.CharField(label = 'Enter Pin Location', max_length=255)
+
     
