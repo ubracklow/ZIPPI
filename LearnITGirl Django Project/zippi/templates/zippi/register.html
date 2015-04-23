@@ -1,24 +1,43 @@
+<!DOCTYPE html>
 {% extends 'zippi/base_start.html' %}
+{% load bootstrap3 %}
 
 {% block content %}
 
-	<h1>Register with ZIPPI</h1>
+	<div class="container">
+		<div class="row">
+  	
+			<div class="col-sm-2">			
+			</div>
+	
+		<div class="col-sm-8">
+	
+			<h1>Create a Zippi Account</h1>
 
-        {% if registered %}
-        Zippi says: <strong>thank you for registering!</strong>
-        <a href="/">Return to the homepage.</a><br />
-        {% else %}
-        Zippi says: <strong>register here!</strong><br />
+        		{% if registered %}
+        		</br>
+			</br></br></br>
+			<strong>Thank you for registering!</strong> 
+			</br>        		
+			<h4><a href="/">Return to Start.</a></h4>
 
-        <form id="user_form" method="post" action="/register/"
-                enctype="multipart/form-data">
+
+        		
+			{% else %}
+        		
+        		<form id="user_form" class="form" method="post" action="/register/"
+                	enctype="multipart/form-data">
 
             {% csrf_token %}
+				
+			{% bootstrap_form user_form layout="vertical" %} 
+			{% bootstrap_form profile_form layout="vertical" %} 
+				{% buttons %}
+					<button type="submit" class="Listbtn btn-success btn-lg">Register</button>
+				{% endbuttons %}
 
-            {{ user_form.as_p }}
-            {{ profile_form.as_p }}
 
-            <input type="submit" name="submit" value="Register" />
+            
         </form>
         {% endif %}
    

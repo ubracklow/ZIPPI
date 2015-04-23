@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Map(models.Model):
-    user = models.ForeignKey('auth.User', default=1)
+    user = models.ForeignKey('auth.User')
     map_title = models.CharField(max_length=255)
     map_lat = models.DecimalField(max_digits=8, decimal_places=6, null=True, blank=True)
     map_long = models.DecimalField(max_digits=8, decimal_places=6, null=True, blank=True)
@@ -11,13 +11,13 @@ class Map(models.Model):
         return self.map_title
 
 class Pin(models.Model):
-    map_title = models.ForeignKey(Map)
-    author = models.ForeignKey('auth.User', default=1)
+    related_map = models.ForeignKey(Map)
     pin_lat = models.DecimalField(max_digits=8, decimal_places=6)
     pin_long = models.DecimalField(max_digits=8, decimal_places=6)
+    pin_address = models.CharField(max_length=150)
     CATEGORY_CHOICES = (
-        ("SL", "Sleep"),
-        ("EA", "Eat"),
+        ("AC", "Accommodation"),
+        ("FO", "Food"),
         ("OU", "Outdoor Activity"),
         ("CU", "Culture"),
         ("SH", "Shopping"),
@@ -28,6 +28,10 @@ class Pin(models.Model):
     category = models.CharField(max_length=2, choices=CATEGORY_CHOICES)
     comment = models.TextField()
 
+    def __str__(self):
+        return self.comment
+        return self.pin_address
+    
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     picture = models.ImageField(upload_to='profile_images', blank=True)

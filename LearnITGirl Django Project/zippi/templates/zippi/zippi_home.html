@@ -3,30 +3,60 @@
 
 {% block content %}
 	
-	{% if user.is_authenticated %}
-	<h1>Hello {{ user.username }}!</h1>
-	
-	<div> <br>
-         <img src="{{ picture.url }}" />
-         
+<div class="row">
+  	
+	<div class="col-sm-2">
 	</div>
+	{% csrf_token %}
+	<div class="col-sm-6">
+		
+		{% if user.is_authenticated %}
+		<h1>Hello {{ user.username }}!</h1>
+		{% endif %}
+		
+		</br>
+		</br>
 	
-	{% else %}
-	<h1>Zippi says... hello world!</h1>
-	{% endif %}
-<br />	
+		{% if picture %}
+		<img src="{{ picture.url }}" class="img-circle" width="250" height="350"/>
+        	{% endif %}
+
+	</div>
+			
+  	
+	<div class="col-sm-4">
+		
+		
+		</br>
+		</br>
+		</br>
+		</br>
+		<p>
+        	<a href="/maplist/"<button type="button" class="btn btn-success btn-lg "><span class="glyphicon glyphicon-star"></span> My Saved Maps</button></a>
+	    	</p> 
+		<p>
+        	<a href="{% url 'zippi.views.new_map' %}" button type="button" class="btn btn-success btn-lg "><span class="glyphicon glyphicon-globe"></span> Start a New Map</a>
+	    	</p> 
+		</br>
+		</br>
+		</br>
+		
+		<p>
+		<h4>Do you really have to go?</h4><a href="/logout/" button type="button" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+		</p>
+		<h4>Is this the End?</h4>
+		<a href="/login/deleteprofile/" button type="button" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-remove-circle"></span> Delete Profile</a>
+		<p>
+		
 
 
-<br />	
-<br />	
-<br />
+	</div>
+</div>
 
-	<h1><a href="/pin/list/">See List of Pins Here</a></h1>
 	
-	<br />
 
-	<br />
 	
-	<h1><a href="/logout/">Logout Here</a></h1>
-
+	
+	
+	
 {% endblock %}        

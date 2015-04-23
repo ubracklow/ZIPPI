@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends 'zippi/base.html' %}
+
+{% load bootstrap3 %}
+
+
+{% block content %}	
+
+	<div class="container">
+		<div class="row">
+  	
+			<div class="col-sm-2">			
+			</div>
+	
+		<div class="col-sm-8">
+
+			<h1>Lets go!</h1>
+	
+
+			<br />	
+	
+
+	
+<form class="form" action="/newmap/" method="POST">
+    	{% csrf_token %}
+	{% bootstrap_form form layout="vertical" %} 
+				{% buttons %}
+					<button type="submit" class="Listbtn btn-success btn-lg">Start Planning your Trip</button>
+				{% endbuttons %}
+	
+
+</form>	
+
+{% if messages %}
+	<class="messages">
+    	{% for message in messages %}
+    	<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+   	 {% endfor %}
+	{% endif %}
+<br />
+	
+	
+{% endblock %}        

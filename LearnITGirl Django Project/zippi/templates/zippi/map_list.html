@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% extends 'zippi/base.html' %}
+
+{% block content %}
+	
+	<div class="container">
+		<div class="row">
+  	
+			<div class="col-sm-2">
+
+			
+			</div>	
+
+		
+	{% csrf_token %}
+	
+			<div class="col-sm-6">
+			
+				<h1>My Maps</h1>
+				</br>
+	
+					
+				{% for map in maps %}
+	
+		
+				<div>
+				<p> <a href="{% url 'zippi.views.my_map' pk=map.pk %}" button type="button" class="Listbtn btn-success btn-lg">{{ map.map_title }}</a></p>
+				</br>
+				</div>
+		
+				{% endfor %}
+			
+			{% if messages %}
+				
+    					{% for message in messages %}
+    						<p class="messages" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+						
+   	 				{% endfor %}
+				
+			{% endif %}
+
+			</div>
+
+			<div class="col-sm-4">
+		
+		
+				</br>
+				</br>
+				</br>
+				</br>
+				<p>
+        			<a href="{% url 'zippi.views.new_map' %}" button type="button" class="btn btn-success btn-lg "><span class="glyphicon glyphicon-globe"></span> Start a New Map</a>
+	    			</p> 
+				</br>
+				</br>
+				</br>
+		
+		
+
+	</div>
+
+	
+{% endblock %}        
+
+
+

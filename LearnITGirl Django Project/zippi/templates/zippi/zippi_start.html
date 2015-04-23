@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 {% extends 'zippi/base_start.html' %}
 
-{% block content %}
-	
-	
-	<h1>Welcome to Zippi!</h1>
-	
 
-<br />	
-<br />	
-<br />
 
+	{% block content %}
 	
-	<h1><a href="/register/">Register Here</a></h1>
+		<div> 
+		<h2 class="start-page-footer">Welcome!</h2> 
+		</div>
 	
-	<br />
+		
+		{% if messages %}
+		<class="messages" style="text-align: center">
+    		{% for message in messages %}
+    		<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+   	 	{% endfor %}
+		{% endif %}
 	
-	<h1><a href="/login/">Login Here</a></h1>
-<br />
+		</br>
 	
+		<h2><a href="/login/">Login</a></h2>
+		<br />
+		
+		<h2><a href="/register/">Create Account</a></h2>
 	
-{% endblock %}        
+		</br>
+	
+		<h4 style="text-align: center"><a href="http://gutenberg.spiegel.de/buch/kleine-geschichten-1191/9">Der Reisegott Zippi</a></h4>
+	
+	{% endblock %}        

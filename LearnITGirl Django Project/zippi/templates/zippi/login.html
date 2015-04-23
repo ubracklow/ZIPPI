@@ -1,17 +1,40 @@
+<!DOCTYPE html>
 {% extends 'zippi/base_start.html' %}
 
 {% block content %}
 
-	<h1>Login to ZIPPI</h1>
+	
+		<div class="container">
+    			<div class="row">
+        			<div class="col-md-6 col-md-offset-3">
+					<h1>Login to your ZIPPI Account</h1> 
 
-        <form id="login_form" method="post" action="/login/">
-            {% csrf_token %}
-            Username: <input type="text" name="username" value="" size="50" />
-            <br />
-            Password: <input type="password" name="password" value="" size="50" />
-            <br />
+				</div>
+			</div>
+		</div>
+			
+		<br />
+	
+        	<div class="container">
+    			<div class="row">
+        			<div class="col-md-6 col-md-offset-3">
+            
 
-            <input type="submit" value="submit" />
-        </form>
+				<form method="post" action="/login/">
+        			{% csrf_token %}
+        			<div class="form-group">
+				Username: <input type="text" name="username" value="" size="50" />
+            			</div>
+				<div class="form-group">
+            			Password: <input type="password" name="password" value="" size="50" />
+            			</div>
+				<br />
+            			<input type="submit" class="btn btn-default" value="Log me in" />
+        			</form>
+       			 	</div>
+    			</div>
+		</div>
 
+<
+	</div>
 {% endblock %}        

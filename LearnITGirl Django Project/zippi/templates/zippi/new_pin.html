@@ -15,28 +15,31 @@
 			</div>
 	
 			<div class="col-sm-8">
-				<h1>Edit Pin</h1>
+				<h1>New Pin</h1>
 
 		
 				<br />
-
+				{% if messages %}
+				<br/>
+			<class="messages">
+    			{% for message in messages %}
+    			<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+   	 		{% endfor %}
+			<br/>
+			{% endif %}
+			
     				<form class="form" method="POST" action="." >
 				{% csrf_token %}
         			{% bootstrap_form form layout="vertical" %} 
 				{% buttons %}
-					<button type="submit" class="Listbtn btn-success btn-lg">Save Changes</button>
+					<button type="submit" class="Listbtn btn-success btn-lg">Save Pin</button>
 				{% endbuttons %}
     				</form>
 			</div>
 
 		<div class="col-sm-2">			
 			
-			{% if messages %}
-			<class="messages">
-    			{% for message in messages %}
-    			<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-   	 		{% endfor %}
-			{% endif %}
+			
 		</div>
 </div>
 

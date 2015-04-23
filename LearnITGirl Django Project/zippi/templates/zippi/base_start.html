@@ -1,31 +1,37 @@
 {% load staticfiles %}
-<html>
-    <head>
-        <title>ZIPPI</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        <link href="//fonts.googleapis.com/css?family=Gravitas+One" rel="stylesheet" type="text/css">
-	<link href="//fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>ZIPPI</title>
+  	
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	
+	
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
 	<link rel="stylesheet" href="{% static 'css/zippi.css' %}">
 
+	<link href="//fonts.googleapis.com/css?family=Gravitas+One" rel="stylesheet" type="text/css">
+	<link href="//fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+</head>
+
+<body>
 	
- </head>
-    
-    <body>
-	<div class="page-header">
-        	<h1><a href="/">ZIPPI - Your Travel Companion</a></h1>
+	<div class="start-page-header">
+	<h1><a href="/">ZIPPI<br />Your Travel Companion</a></h1>
         </div>
         
-	<div class="content container">
-        	<div class="row">
-        		<div class="col-md-8">
-                
+	
+
+	 <div class="start-page-footer">
 			{% block content %}
         		{% endblock %}
                 
-			</div>
-           	 </div>
-       	</div>
-   	</body>
+	</div>
+        
+</body>
 </html>

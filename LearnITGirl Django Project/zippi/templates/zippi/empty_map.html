@@ -1,0 +1,88 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ZIPPI</title>
+        
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <link href="//fonts.googleapis.com/css?family=Gravitas+One" rel="stylesheet" type="text/css">
+	<link href="//fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="{% static 'css/zippi.css' %}">
+
+
+	<style>
+      	#map-canvas {
+        width: 800px;
+        height: 400px;
+      	}
+    	</style>
+    
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+    
+<script>
+      function initialize() {
+        var mapCanvas = document.getElementById('map-canvas');
+        var mapOptions = {
+          center: new google.maps.LatLng({{ map_lat }}, {{ map_long }}),
+          zoom: 7,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map = new google.maps.Map(mapCanvas, mapOptions)
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  
+</head>
+ 
+<body>
+	
+<div class="page-header">
+	<h1><a href="/home/">ZIPPI - Your Travel Companion</a></h1>
+        </div>
+
+	
+	<div class="container">
+		<div class="row">
+  	
+			<div class="col-sm-3">
+				<br/><br/><br/><br/><br/><br/><br/> </br>
+				<p><a href="../../pin/new/{{map_id}}/" class="Listbtn btn-success btn-lg"><span class="glyphicon glyphicon-pushpin"></span> Set Pin on Map</a></p>
+				<br/>
+				<p><a href="../../pinlist/{{map_id}}/" class="Listbtn btn-success btn-lg">Show List of Pins<a></p> 
+				<br/>
+				<p><a href="{% url 'zippi.views.map_list' %}" class="Listbtn btn-success btn-lg">Return to My Maps</a></p>
+				<br/><br/>
+				<p><a href="/mymap/{{map_id}}/delete" class="Listbtn btn-success btn-lg"><span class="glyphicon glyphicon-trash"></span> Delete Map</a></p>
+			</div>	
+
+	
+			<div class="col-sm-9">
+					
+			<h1> {{ map_title }} </h1>
+			<br>
+	
+
+			{% if messages %}
+			<class="messages">
+    			{% for message in messages %}
+    			<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+   	 		{% endfor %}
+			{% endif %}
+			<br>
+
+	
+			<div id="map-canvas"></div>
+
+			</div>
+	
+
+
+
+
+</body>
+</html>
+
+
+ 

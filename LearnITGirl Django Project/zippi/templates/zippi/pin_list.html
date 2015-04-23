@@ -1,12 +1,67 @@
+<!DOCTYPE html>
 {% extends 'zippi/base.html' %}
 
+
 {% block content %}
-	<h1><a href="{% url 'zippi.views.pin_list' %}">List of Pins</a></h1>
-	{% for pin in pins %}
-		<div class="pin">
-		<h1><a href="{% url 'zippi.views.pin_detail' pk=pin.pk %}">{{ pin.get_category_display }}</a></h1>
-		<p>{{ pin.comment|linebreaks }}</p>
-		</div>
-	{% endfor %}
+	
+<div class="container">
+		<div class="row">
+  	
+			<div class="col-sm-2">
+
+			
+			</div>	
+
+		
+	{% csrf_token %}
+	
+			<div class="col-sm-6">
+			
+				<h1>My Pins</h1>
+				</br>
+	
+					
+				{% for pin in pins %}
+				
+		
+				<div id="rcborder">
+				
+				<h5 id="purple">Category: {{ pin.get_category_display }}</h5>
+				
+				<h4><a href="{% url 'zippi.views.pin_detail' pk=pin.pk %}">{{ pin.pin_address }}</a></h4>
+				
+				
+				</br>
+				<p>{{ pin.comment|linebreaks }}</p>
+				</br>				
+				<p><a href="{% url 'zippi.views.pin_detail' pk=pin.pk %}" button type="button" class="Listbtn btn-success btn-lg">Show Pin on Map</a></p>
+				
+				</div>
+		
+				{% endfor %}
+			
+			{% if messages %}
+				
+    					{% for message in messages %}
+    						<p class="messages" id = "warning" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+						
+   	 				{% endfor %}
+				
+			{% endif %}
+
+			</div>
+
+			<div class="col-sm-4">
+		
+		
+				
+		
+		
+
+	</div>
+
+
+
+
 
 {% endblock %}        
