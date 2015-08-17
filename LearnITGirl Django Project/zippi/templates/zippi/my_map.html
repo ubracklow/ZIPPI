@@ -66,7 +66,7 @@
       			position: myLatlng,
       			map: map,
 			icon: image,
-      			title: '{{pin.comment}}'
+      			title: '{{pin.comment|escapejs}}'
   		});
 	
 		bounds.extend(marker.position);	

@@ -30,7 +30,6 @@ class Pin(models.Model):
 
     def __str__(self):
         return self.comment
-        return self.pin_address
     
 class UserProfile(models.Model):
     user = models.OneToOneField(User)

@@ -47,7 +47,7 @@ def register(request):
         'zippi/register.html',
         {'user_form' : user_form, 'profile_form' : profile_form, 'registered' : registered})
 
-
+@login_required
 def edit_profile(request):
     registered = True
 
@@ -83,6 +83,7 @@ def edit_profile(request):
         {'user_form' : user_form, 'profile_form' : profile_form, 'registered' : registered})
 
 
+@login_required
 def delete_profile(request):
     request.user.delete()
     messages.success(request, 'Your Zippi Profile has been deleted.')
@@ -122,6 +123,7 @@ def zippi_home(request):
 
 ## MAPS
 
+@login_required
 def new_map(request):
      ''' take userinput, geocode into coordinates and use as centerpoint for a map '''
      if request.method == 'POST':
@@ -148,17 +150,20 @@ def new_map(request):
           form = MapCenterForm()
           return render(request, 'zippi/new_map.html', {'form': form})
 
+@login_required
 def map_list(request):
     ''' lists all maps for user '''
     maps = Map.objects.filter(user=request.user)
     return render(request, 'zippi/map_list.html', {'maps': maps})
 
+@login_required
 def my_map(request, pk):
     ''' displays map with all associated pins '''
     my_map = get_object_or_404(Map, pk=pk)
     pins = Pin.objects.filter(related_map=my_map)
     return render(request, 'zippi/my_map.html', {'map_long' : my_map.map_long, 'map_lat' : my_map.map_lat, 'pins' : pins, 'map_id' : my_map.id, 'map_title' : my_map.map_title})
 
+@login_required
 def delete_map(request, pk):
     my_map = get_object_or_404(Map, pk=pk)
     my_map.delete()
@@ -168,6 +173,7 @@ def delete_map(request, pk):
 
 ## PINS
 
+@login_required
 def new_pin(request, pk):
      ''' take user input to set new pin on related map '''
      if request.method == 'POST':
@@ -195,17 +201,20 @@ def new_pin(request, pk):
           form = NewPinForm()
           return render(request,'zippi/new_pin.html', {'form': form})
 
+@login_required
 def pin_list(request, pk):
     ''' show list of all pins of related map '''
     pins = Pin.objects.filter(related_map=pk).order_by('category')
     return render(request, 'zippi/pin_list.html', {'pins': pins})
 
+@login_required
 def pin_detail(request, pk):
     ''' show pin object '''
     pin = get_object_or_404(Pin, pk=pk)
     my_map = pin.related_map
     return render(request, 'zippi/pin_detail.html', {'pin': pin, 'map_id':my_map.pk })
 
+@login_required
 def pin_edit(request, pk):
     ''' edit existing pin object '''
     pin = get_object_or_404(Pin, pk=pk)
@@ -227,6 +236,7 @@ def pin_edit(request, pk):
         form = EditPinForm(instance=pin)
         return render(request, 'zippi/pin_edit.html', {'form': form})
 
+@login_required
 def pin_delete(request, pk):
     pin = get_object_or_404(Pin, pk=pk)
     my_map = pin.related_map.pk
